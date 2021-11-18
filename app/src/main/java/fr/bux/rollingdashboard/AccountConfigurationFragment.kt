@@ -36,7 +36,7 @@ class AccountConfigurationFragment : Fragment() {
         // Fill the spinner
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
-            context!!,
+            requireContext(),
             R.array.network_grab_period_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
