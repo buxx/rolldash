@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import fr.bux.rollingdashboard.databinding.AccountConfigurationFragmentBinding
 
@@ -56,6 +57,18 @@ class AccountConfigurationFragment : Fragment() {
 
         binding.buttonGoBackMain.setOnClickListener {
             findNavController().navigate(R.id.action_AccountConfigurationFragment_to_DashboardFragment)
+        }
+
+        binding.buttonSave.setOnClickListener {
+            Toast.makeText(context, R.string.saving, Toast.LENGTH_LONG).show()
+
+            val server_address = binding.textInputServerAddress.text.toString()
+            val user_name = binding.textInputUserName.text.toString()
+            val password = binding.passwordPassword.text.toString()
+            val notify_hungry = binding.switchNotificateHungry.isChecked
+            val notify_thirsty = binding.switchThirst.isChecked
+            val notify_ap = binding.switchMaxAp.isChecked
+            val network_grab_each = 3600 // FIXME : determine value for real
         }
 
     }

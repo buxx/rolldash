@@ -13,8 +13,11 @@ data class Character(
 
 @Dao
 interface CharacterDao {
-    @Query("SELECT * FROM character WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM character LIMIT 1")
     fun get(id: String): Character
+
+    @Query("DELETE FROM character")
+    fun clear()
 
     @Insert
     fun insert(character: Character)

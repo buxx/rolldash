@@ -6,6 +6,7 @@
     <string name="text_input_server_address_hint">Addresse du serveur</string>
     <string name="text_input_user_name_hint">Email ou username</string>
     <string name="text_input_password_hint">Mot de passe</string>
+    <string name="network_grab_each">Récupération toutes les :</string>
 
     <string-array name="network_grab_period_array">
         <item>5 minutes</item>
@@ -17,14 +18,16 @@
         <item>24 heures</item>
     </string-array>
 
-
+    <!-- Generic -->
+    <string name="cancel">Annuler</string>
+    <string name="save">Enregistrer</string>
+    <string name="saving">Enregistrement …</string>
 
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="dashboard_fragment_label">First Fragment</string>
     <string name="account_configuration_fragment_label">Configuration du compte</string>
     <string name="next">Next</string>
-    <string name="previous">Previous</string>
     <string name="hello">Hello</string>
 
     <string name="hello_dashboard_fragment">Tableau de bord</string>
