@@ -9,7 +9,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
-import androidx.navigation.fragment.findNavController
 import fr.bux.rollingdashboard.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

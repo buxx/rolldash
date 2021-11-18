@@ -1,5 +1,24 @@
 <resources>
-    <string name="app_name">RollingDashboard</string>
+    <!-- General -->
+    <string name="app_name">Rolling : Tableau de bord</string>
+
+    <!-- Account configuration -->
+    <string name="text_input_server_address_hint">Addresse du serveur</string>
+    <string name="text_input_user_name_hint">Email ou username</string>
+    <string name="text_input_password_hint">Mot de passe</string>
+
+    <string-array name="network_grab_period_array">
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 heure</item>
+        <item>6 heures</item>
+        <item>12 heures</item>
+        <item>24 heures</item>
+    </string-array>
+
+
+
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="dashboard_fragment_label">First Fragment</string>
