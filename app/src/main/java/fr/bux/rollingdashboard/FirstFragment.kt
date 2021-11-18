@@ -34,7 +34,7 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_AccountConfiguration)
+            findNavController().navigate(R.id.action_FirstFragment_to_AccountConfigurationFragment)
         }
 
         binding.buttonHello.setOnClickListener {

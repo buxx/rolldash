@@ -12,17 +12,17 @@
         tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_FirstFragment_to_AccountConfiguration"
-            app:destination="@id/AccountConfiguration" />
+            android:id="@+id/action_FirstFragment_to_AccountConfigurationFragment"
+            app:destination="@id/AccountConfigurationFragment" />
     </fragment>
     <fragment
-        android:id="@+id/AccountConfiguration"
-        android:name="fr.bux.rollingdashboard.AccountConfiguration"
-        android:label="@string/account_configuration_label"
-        tools:layout="@layout/account_configuration">
+        android:id="@+id/AccountConfigurationFragment"
+        android:name="fr.bux.rollingdashboard.AccountConfigurationFragment"
+        android:label="@string/account_configuration_fragment_label"
+        tools:layout="@layout/account_configuration_fragment">
 
         <action
-            android:id="@+id/action_AccountConfiguration_to_FirstFragment"
+            android:id="@+id/action_AccountConfigurationFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
 </navigation>

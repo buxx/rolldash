@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import fr.bux.rollingdashboard.databinding.AccountConfigurationBinding
+import fr.bux.rollingdashboard.databinding.AccountConfigurationFragmentBinding
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class AccountConfiguration : Fragment() {
+class AccountConfigurationFragment : Fragment() {
 
-    private var _binding: AccountConfigurationBinding? = null
+    private var _binding: AccountConfigurationFragmentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,7 +24,7 @@ class AccountConfiguration : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        _binding = AccountConfigurationBinding.inflate(inflater, container, false)
+        _binding = AccountConfigurationFragmentBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -33,7 +33,7 @@ class AccountConfiguration : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonGoBackMain.setOnClickListener {
-            findNavController().navigate(R.id.action_AccountConfiguration_to_FirstFragment)
+            findNavController().navigate(R.id.action_AccountConfigurationFragment_to_FirstFragment)
         }
 
     }

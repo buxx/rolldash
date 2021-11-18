@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
-    <string name="account_configuration_label">Account Configuration</string>
+    <string name="account_configuration_fragment_label">Account Configuration</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="hello">Hello</string>
