@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/DashboardFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="fr.bux.rollingdashboard.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/DashboardFragment"
+        android:name="fr.bux.rollingdashboard.DashboardFragment"
+        android:label="@string/dashboard_fragment_label"
+        tools:layout="@layout/dashboard_fragment">
 
         <action
-            android:id="@+id/action_FirstFragment_to_AccountConfigurationFragment"
+            android:id="@+id/action_DashboardFragment_to_AccountConfigurationFragment"
             app:destination="@id/AccountConfigurationFragment" />
     </fragment>
     <fragment
@@ -22,7 +22,7 @@
         tools:layout="@layout/account_configuration_fragment">
 
         <action
-            android:id="@+id/action_AccountConfigurationFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_AccountConfigurationFragment_to_DashboardFragment"
+            app:destination="@id/DashboardFragment" />
     </fragment>
 </navigation>

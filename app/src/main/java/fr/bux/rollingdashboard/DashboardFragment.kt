@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import fr.bux.rollingdashboard.databinding.FragmentFirstBinding
+import fr.bux.rollingdashboard.databinding.DashboardFragmentBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class DashboardFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: DashboardFragmentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,7 +25,7 @@ class FirstFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = DashboardFragmentBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -34,7 +34,7 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_AccountConfigurationFragment)
+            findNavController().navigate(R.id.action_DashboardFragment_to_AccountConfigurationFragment)
         }
 
         binding.buttonHello.setOnClickListener {

@@ -2,12 +2,12 @@
     <string name="app_name">RollingDashboard</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="account_configuration_fragment_label">Account Configuration</string>
+    <string name="dashboard_fragment_label">First Fragment</string>
+    <string name="account_configuration_fragment_label">Configuration du compte</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="hello">Hello</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_dashboard_fragment">Tableau de bord</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

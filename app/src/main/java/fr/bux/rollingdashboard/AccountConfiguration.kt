@@ -33,7 +33,7 @@ class AccountConfigurationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonGoBackMain.setOnClickListener {
-            findNavController().navigate(R.id.action_AccountConfigurationFragment_to_FirstFragment)
+            findNavController().navigate(R.id.action_AccountConfigurationFragment_to_DashboardFragment)
         }
 
     }

@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         return when (item.itemId) {
             R.id.action_settings -> {
-                navController.navigate(R.id.action_FirstFragment_to_AccountConfigurationFragment)
+                navController.navigate(R.id.action_DashboardFragment_to_AccountConfigurationFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
