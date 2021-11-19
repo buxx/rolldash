@@ -1,6 +1,7 @@
 package fr.bux.rollingdashboard
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Entity
 data class Character(
@@ -13,9 +14,11 @@ data class Character(
 
 @Dao
 interface CharacterDao {
+    // Table contain only one character
     @Query("SELECT * FROM character LIMIT 1")
-    fun get(id: String): Character
+    fun get(): Flow<Character>
 
+    // Before insert a character this method must be called to clear the table
     @Query("DELETE FROM character")
     fun clear()
 
