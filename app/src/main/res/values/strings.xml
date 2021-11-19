@@ -7,6 +7,7 @@
     <string name="text_input_user_name_hint">Email ou username</string>
     <string name="text_input_password_hint">Mot de passe</string>
     <string name="network_grab_each">Récupération toutes les :</string>
+    <string name="account_configuration_saved">Configuration enregistré avec succès</string>
 
     <string-array name="network_grab_period_array">
         <item>5 minutes</item>
@@ -22,6 +23,7 @@
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
     <string name="saving">Enregistrement …</string>
+    <string name="wrong_inputs">Erreur de saisie</string>
 
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->

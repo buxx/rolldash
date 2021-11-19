@@ -1,6 +1,7 @@
 package fr.bux.rollingdashboard
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Entity
 data class AccountConfiguration(
@@ -16,7 +17,7 @@ data class AccountConfiguration(
 @Dao
 interface AccountConfigurationDao {
     @Query("SELECT * FROM accountconfiguration LIMIT 1")
-    fun get(): AccountConfiguration
+    fun get(): Flow<AccountConfiguration>
 
     @Query("DELETE FROM accountconfiguration")
     fun clear()
