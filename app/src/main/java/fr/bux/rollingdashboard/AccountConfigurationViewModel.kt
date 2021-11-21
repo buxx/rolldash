@@ -18,8 +18,8 @@ class AccountConfigurationViewModel(private val repository: AccountConfiguration
         repository.update(account_configuration)
     }
 
-    fun get() = viewModelScope.launch {
-        repository.get()
+    suspend fun get(): AccountConfiguration? {
+        return repository.get()
     }
 
     fun isEntryValid(server_address: String, user_name: String, password: String, network_grab_each: Int): Boolean {
