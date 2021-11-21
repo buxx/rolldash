@@ -9,13 +9,17 @@ class AccountConfigurationViewModel(private val repository: AccountConfiguration
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    val accountConfiguration: LiveData<AccountConfiguration> = repository.accountConfiguration.asLiveData()
+    val accountConfiguration: LiveData<AccountConfiguration?> = repository.accountConfiguration.asLiveData()
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
     fun insert(account_configuration: AccountConfiguration) = viewModelScope.launch {
         repository.update(account_configuration)
+    }
+
+    fun get() = viewModelScope.launch {
+        repository.get()
     }
 
     fun isEntryValid(server_address: String, user_name: String, password: String, network_grab_each: Int): Boolean {

@@ -8,8 +8,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import fr.bux.rollingdashboard.databinding.AccountConfigurationFragmentBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -54,7 +59,6 @@ class AccountConfigurationFragment : Fragment() {
             binding.spinnerNetworkGrabPeriod.adapter = adapter
         }
 
-
         return binding.root
 
     }
@@ -77,8 +81,8 @@ class AccountConfigurationFragment : Fragment() {
             viewModel.insert(
                 AccountConfiguration(
                     server_address = binding.textInputServerAddress.text.toString(),
-                    user_name = binding.textInputServerAddress.text.toString(),
-                    password = binding.textInputServerAddress.text.toString(),
+                    user_name = binding.textInputUserName.text.toString(),
+                    password = binding.passwordPassword.text.toString(),
                     notify_hungry = binding.switchNotificateHungry.isChecked,
                     notify_thirsty = binding.switchThirst.isChecked,
                     notify_ap = binding.switchMaxAp.isChecked,
@@ -100,6 +104,13 @@ class AccountConfigurationFragment : Fragment() {
 
         binding.buttonGoBackMain.setOnClickListener {
             findNavController().navigate(R.id.action_AccountConfigurationFragment_to_DashboardFragment)
+        }
+
+        lifecycleScope.launch {
+            withContext(Dispatchers.Default) {
+                val accountConfiguration = viewModel.get();
+                println("{${accountConfiguration}}")
+            }
         }
 
         binding.buttonSave.setOnClickListener {

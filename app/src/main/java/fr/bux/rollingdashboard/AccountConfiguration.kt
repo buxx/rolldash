@@ -17,11 +17,14 @@ data class AccountConfiguration(
 @Dao
 interface AccountConfigurationDao {
     @Query("SELECT * FROM accountconfiguration LIMIT 1")
-    fun get(): Flow<AccountConfiguration>
+    fun flow(): Flow<AccountConfiguration?>
+
+    @Query("SELECT * FROM accountconfiguration LIMIT 1")
+    suspend fun get(): AccountConfiguration?
 
     @Query("DELETE FROM accountconfiguration")
-    fun clear()
+    suspend fun clear()
 
     @Insert
-    fun insert(account_configuration: AccountConfiguration)
+    suspend fun insert(account_configuration: AccountConfiguration)
 }
