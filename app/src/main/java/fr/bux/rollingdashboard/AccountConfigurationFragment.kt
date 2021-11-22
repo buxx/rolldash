@@ -1,6 +1,7 @@
 package fr.bux.rollingdashboard
 
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,18 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import fr.bux.rollingdashboard.databinding.AccountConfigurationFragmentBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
+fun Fragment?.runOnUiThread(action: () -> Unit) {
+    this ?: return
+    if (!isAdded) return // Fragment not attached to an Activity
+    activity?.runOnUiThread(action)
+}
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -106,10 +113,22 @@ class AccountConfigurationFragment : Fragment() {
             findNavController().navigate(R.id.action_AccountConfigurationFragment_to_DashboardFragment)
         }
 
+        // Fill form with existing account configuration
         lifecycleScope.launch {
             withContext(Dispatchers.Default) {
                 val accountConfiguration = viewModel.get();
-                println("{${accountConfiguration}}")
+
+                if (accountConfiguration != null) {
+                    runOnUiThread {
+                        binding.textInputServerAddress.text = accountConfiguration.server_address.toEditable()
+                        binding.textInputUserName.text = accountConfiguration.user_name.toEditable()
+                        binding.passwordPassword.text = accountConfiguration.password.toEditable()
+                        binding.switchNotificateHungry.isChecked = accountConfiguration.notify_hungry
+                        binding.switchThirst.isChecked = accountConfiguration.notify_thirsty
+                        binding.switchMaxAp.isChecked = accountConfiguration.notify_ap
+                    }
+
+                }
             }
         }
 
