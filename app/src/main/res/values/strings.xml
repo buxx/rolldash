@@ -10,7 +10,6 @@
     <string name="account_configuration_saved">Configuration enregistré avec succès</string>
 
     <string-array name="network_grab_period_array">
-        <item>5 minutes</item>
         <item>15 minutes</item>
         <item>30 minutes</item>
         <item>1 heure</item>

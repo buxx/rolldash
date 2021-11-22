@@ -49,6 +49,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // LIVE DATA
+    // FIXME : remove unused
     def lifecycle_version = "2.4.0"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -74,4 +75,8 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
 
+    // BACKGROUND
+    def work_version = "2.7.1"
+    // Kotlin + coroutines
+    implementation("androidx.work:work-runtime-ktx:$work_version")
 }
