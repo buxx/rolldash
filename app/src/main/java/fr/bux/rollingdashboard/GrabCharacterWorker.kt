@@ -36,17 +36,17 @@ fun getSinceString(date1: Date, date2: Date): String {
     val minutes = seconds / 60
     val hours = minutes / 60
     val days = hours / 24
-
-    if (days > 1) {
-        return "$days jours, $hours heures, $minutes minutes"
+    println("$seconds ...")
+    if (days > 0) {
+        return "$days jour(s) et $hours heure(s)"
     }
 
-    if (hours > 1) {
-        return "$hours heures, $minutes minutes"
+    if (hours > 0) {
+        return "$hours heure(s) et $minutes minute(s)"
     }
 
-    if (minutes > 1) {
-        return "$minutes minutes"
+    if (minutes > 0) {
+        return "$minutes minute(s)"
     }
 
     return "moins d'une minute"

@@ -45,7 +45,6 @@ class DashboardFragment : Fragment() {
 
     private val refreshCharacterData = object : Runnable {
         override fun run() {
-            println("coucou")
 
             lifecycleScope.launch {
                 withContext(Dispatchers.Default) {
@@ -58,7 +57,9 @@ class DashboardFragment : Fragment() {
                         val since = getSinceString(currentDate, lastRefreshDate)
 
                         runOnUiThread {
-                            binding.textviewFirst.text = "Il y a $since".toEditable()
+                            binding.textviewFirst.text = "Récupération il y a : $since".toEditable()
+                            binding.textViewCharacterName.text = character.name.toEditable()
+                            // binding.textViewCharacterHungry.text = character.hungry : "Oui" ? "None"
                         }
 
                     } else {
