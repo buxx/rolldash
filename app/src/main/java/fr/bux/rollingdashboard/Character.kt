@@ -10,13 +10,16 @@ data class Character(
     @ColumnInfo(name = "action_points") val action_points: Float,
     @ColumnInfo(name = "hungry") val hungry: Boolean,
     @ColumnInfo(name = "thirsty") val thirsty: Boolean,
+    @ColumnInfo(name = "last_refresh") val last_refresh: Long,
 )
 
 @Dao
 interface CharacterDao {
-    // Table contain only one character
     @Query("SELECT * FROM character LIMIT 1")
-    fun get(): Flow<Character>
+    fun flow(): Flow<Character>
+
+    @Query("SELECT * FROM character LIMIT 1")
+    fun get(): Character
 
     // Before insert a character this method must be called to clear the table
     @Query("DELETE FROM character")
