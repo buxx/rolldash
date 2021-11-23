@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.work.WorkManager
 import fr.bux.rollingdashboard.databinding.AccountConfigurationFragmentBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,10 +82,20 @@ class AccountConfigurationFragment : Fragment() {
     }
 
     private fun save() {
-        Toast.makeText(context, R.string.saving, Toast.LENGTH_LONG).show()
         if (isEntryValid()) {
-            val networkGrabEach = 3600 // FIXME : determine value for real
+            Toast.makeText(context, R.string.saving, Toast.LENGTH_LONG).show()
 
+            // Determine if it is the first account configuration
+            var itsFirst = true
+            lifecycleScope.launch {
+                withContext(Dispatchers.Default) {
+                    val accountConfiguration = viewModel.get()
+                    itsFirst = accountConfiguration != null
+                }
+            }
+
+            println("Insert account configuration in database")
+            val networkGrabEach = 3600 // FIXME : determine value for real
             viewModel.insert(
                 AccountConfiguration(
                     server_address = binding.textInputServerAddress.text.toString(),
@@ -96,6 +107,18 @@ class AccountConfigurationFragment : Fragment() {
                     network_grab_each = networkGrabEach,
                 )
             )
+
+            if (itsFirst) {
+                println("It is the first account configuration, enqueue work request")
+                val workManager = WorkManager.getInstance(requireContext())
+                workManager.enqueue(
+                    (activity?.application  as RollingDashboardApplication).buildPeriodicGrabCharacterWorkRequest()
+                )
+            } else {
+                println("It is not the first account configuration, require immediate grab")
+                // FIXME BS NOW : Do it, but ... how ? :)
+            }
+
             Toast.makeText(context, R.string.account_configuration_saved, Toast.LENGTH_LONG).show()
             findNavController().navigate(R.id.action_AccountConfigurationFragment_to_DashboardFragment)
         } else {

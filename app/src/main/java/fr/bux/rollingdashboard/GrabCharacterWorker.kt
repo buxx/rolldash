@@ -7,6 +7,9 @@ import androidx.work.WorkerParameters
 class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
     Worker(appContext, workerParams) {
     override fun doWork(): Result {
+        // FIXME : add a last date check because android execute multiple times this worker when
+        // application was closed.
+        // TODO : Afficher la date de dernier fetch pour verifier que le worker travaille
 
         // Do the work ...
         // See https://www.raywenderlich.com/6994782-android-networking-with-kotlin-tutorial-getting-started

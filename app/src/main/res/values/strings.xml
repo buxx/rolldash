@@ -26,7 +26,7 @@
 
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="dashboard_fragment_label">First Fragment</string>
+    <string name="dashboard_fragment_label">Tableau de bord</string>
     <string name="account_configuration_fragment_label">Configuration du compte</string>
     <string name="next">Next</string>
     <string name="hello">Hello</string>
