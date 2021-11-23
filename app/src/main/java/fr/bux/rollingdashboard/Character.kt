@@ -19,7 +19,7 @@ interface CharacterDao {
     fun flow(): Flow<Character>
 
     @Query("SELECT * FROM character LIMIT 1")
-    fun get(): Character
+    fun get(): Character?
 
     // Before insert a character this method must be called to clear the table
     @Query("DELETE FROM character")

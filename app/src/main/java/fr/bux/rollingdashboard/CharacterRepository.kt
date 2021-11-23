@@ -15,4 +15,10 @@ class CharacterRepository(private val characterDao: CharacterDao) {
         characterDao.clear()
         characterDao.insert(character)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun get() : Character? {
+        return characterDao.get()
+    }
 }

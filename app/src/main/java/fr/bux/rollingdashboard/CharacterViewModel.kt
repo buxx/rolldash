@@ -11,11 +11,12 @@ class CharacterViewModel(private val repository: CharacterRepository) : ViewMode
     // - Repository is completely separated from the UI through the ViewModel.
     val character: LiveData<Character> = repository.character.asLiveData()
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
     fun insert(character: Character) = viewModelScope.launch {
         repository.update(character)
+    }
+
+    suspend fun get(): Character? {
+        return repository.get()
     }
 }
 

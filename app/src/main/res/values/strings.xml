@@ -18,6 +18,9 @@
         <item>24 heures</item>
     </string-array>
 
+    <!-- Dashboard -->
+    <string name="loading">Chargement …</string>
+
     <!-- Generic -->
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
@@ -31,6 +34,5 @@
     <string name="next">Next</string>
     <string name="hello">Hello</string>
 
-    <string name="hello_dashboard_fragment">Tableau de bord</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

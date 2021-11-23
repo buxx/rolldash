@@ -16,6 +16,7 @@ import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
+// FIXME : move the fun into utils file
 fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
     val formatter = SimpleDateFormat(format, locale)
     return formatter.format(this)
@@ -27,6 +28,28 @@ fun getCurrentDateTime(): Date {
 
 fun getCurrentTimestamp(): Timestamp {
     return Timestamp(System.currentTimeMillis())
+}
+
+fun getSinceString(date1: Date, date2: Date): String {
+    val diff: Long = date1.time - date2.time
+    val seconds = diff / 1000
+    val minutes = seconds / 60
+    val hours = minutes / 60
+    val days = hours / 24
+
+    if (days > 1) {
+        return "$days jours, $hours heures, $minutes minutes"
+    }
+
+    if (hours > 1) {
+        return "$hours heures, $minutes minutes"
+    }
+
+    if (minutes > 1) {
+        return "$minutes minutes"
+    }
+
+    return "moins d'une minute"
 }
 
 class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):

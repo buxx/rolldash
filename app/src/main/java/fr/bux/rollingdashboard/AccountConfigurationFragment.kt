@@ -30,11 +30,7 @@ fun Fragment?.runOnUiThread(action: () -> Unit) {
 class AccountConfigurationFragment : Fragment() {
 
     private var _binding: AccountConfigurationFragmentBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-
     private val viewModel: AccountConfigurationViewModel by activityViewModels {
         AccountConfigurationViewModelFactory(
             (activity?.application as RollingDashboardApplication).account_configuration_repository
@@ -45,7 +41,7 @@ class AccountConfigurationFragment : Fragment() {
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = AccountConfigurationFragmentBinding.inflate(inflater, container, false)
 
