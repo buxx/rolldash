@@ -57,9 +57,13 @@ class DashboardFragment : Fragment() {
                         val since = getSinceString(currentDate, lastRefreshDate)
 
                         runOnUiThread {
-                            binding.textviewFirst.text = "Récupération il y a : $since".toEditable()
-                            binding.textViewCharacterName.text = character.name.toEditable()
-                            // binding.textViewCharacterHungry.text = character.hungry : "Oui" ? "None"
+                            binding.textviewFirst.text = getString(R.string.last_refresh, since)
+                            binding.textViewCharacterName.text = getString(R.string.character_name, character.name)
+                            val hungry = if (character.hungry) { "Oui" } else { "Non" }
+                            binding.textViewCharacterHungry.text = getString(R.string.character_hungry, hungry)
+                            val thirsty = if (character.hungry) { "Oui" } else { "Non" }
+                            binding.textViewCharacterThirsty.text = getString(R.string.character_thirsty, thirsty)
+                            binding.textViewCharacterAp.text = getString(R.string.character_ap, character.action_points.toString())
                         }
 
                     } else {

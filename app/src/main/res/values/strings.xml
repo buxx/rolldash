@@ -20,6 +20,11 @@
 
     <!-- Dashboard -->
     <string name="loading">Chargement …</string>
+    <string name="last_refresh">Récupération il y a : %s</string>
+    <string name="character_name">Personnage : %s</string>
+    <string name="character_ap">Points d\'Actions : %s</string>
+    <string name="character_hungry">Faim : %s</string>
+    <string name="character_thirsty">Soif : %s</string>
 
     <!-- Generic -->
     <string name="cancel">Annuler</string>
