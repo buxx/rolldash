@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Character::class, AccountConfiguration::class], version = 1)
+@Database(entities = [SystemData::class, Character::class, AccountConfiguration::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
+    abstract fun systemDataDao(): SystemDataDao
     abstract fun characterDao(): CharacterDao
     abstract fun accountConfigurationDao(): AccountConfigurationDao
 

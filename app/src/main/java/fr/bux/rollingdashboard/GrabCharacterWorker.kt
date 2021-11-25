@@ -10,12 +10,15 @@ import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlinx.serialization.*
 
 // FIXME : move the fun into utils file
 fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
@@ -54,6 +57,8 @@ fun getSinceString(date1: Date, date2: Date): String {
 }
 
 
+@Serializable
+data class CharacterInfo(val alive: Boolean, val name: String, val action_points: Float)
 
 private fun isInternetAvailable(context: Context): Boolean {
     var result = false
@@ -89,7 +94,7 @@ private fun isInternetAvailable(context: Context): Boolean {
 class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
     CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
-        // FIXME : add a last date check because android execute multiple times this worker when
+        // FIXME : add a last date check (failure or not !!) because android execute multiple times this worker when
         // application was closed.
         // TODO : Afficher la date de dernier fetch pour verifier que le worker travaille
         // TODO : mettre un bouton refresh sur la home page
@@ -98,13 +103,29 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
         // See https://www.raywenderlich.com/6994782-android-networking-with-kotlin-tutorial-getting-started
         // https://kotlinlang.org/docs/kmm-use-ktor-for-networking.html#configure-the-client
         println("DEBUG PERIODIC EXECUTION")
+        val database = RollingDashboardApplication.instance.database
+
+        var systemData = database.systemDataDao().get()
+        if (systemData == null) {
+            systemData = SystemData(last_try_refresh = getCurrentTimestamp().time)
+            database.systemDataDao().insert(systemData)
+        } else {
+            val lastTryRefresh = systemData.last_try_refresh
+            systemData.last_try_refresh = getCurrentTimestamp().time
+            database.systemDataDao().clear()
+            database.systemDataDao().insert(systemData)
+
+            if (lastTryRefresh < 30_000) {
+                println("Skip grab character (last check minor than 30s)")
+                return Result.success()
+            }
+        }
 
         if (!isInternetAvailable(applicationContext)) {
             println("Grab character worker called but there is no internet access !")
             return Result.failure()
         }
 
-        val database = RollingDashboardApplication.instance.database
         val accountConfiguration = database.accountConfigurationDao().get()
         if (accountConfiguration == null) {
             println("Grab character worker called but there is no account configuration !")
@@ -114,6 +135,14 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
         // Grab over api
         val httpClient: HttpClient = HttpClient(Android)  {
             expectSuccess = false
+            install(JsonFeature) {
+                KotlinxSerializer(
+                    kotlinx.serialization.json.Json {
+                        prettyPrint = true
+                        ignoreUnknownKeys = true
+                    }
+                )
+            }
             install(Auth) {
                 basic {
                     credentials {
@@ -174,42 +203,29 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
 
         val characterUrl = "$serverUrl/character/$characterId"
         println("Make request $accountCharacterUrl")
-        val characterResponse: HttpResponse = httpClient.get(characterUrl)
-        when (characterResponse.status) {
-            HttpStatusCode.Forbidden -> {
-                // FIXME UI must display this problem
-                println("Fail to authenticate !")
-                return Result.failure()
-            }
-            HttpStatusCode.OK -> {
-                // OK
-            }
-            else -> {
-                // FIXME UI must display this problem
-                val statusCode = characterResponse.status
-                println("Unexpected return status code $statusCode !")
-                return Result.failure()
-            }
-        }
 
-        val characterInfo: String = characterResponse.readText()
+        val characterInfoResponse: HttpResponse =  try {
+            httpClient.get(characterUrl)
+        } catch (e: Throwable) {
+            println("Unexpected error ! $e")
+            return Result.failure()
+        }
+        val characterInfoResponseJsonString = characterInfoResponse.readText()
+        val characterInfo = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }.decodeFromString<CharacterInfo>(characterInfoResponseJsonString)
+
         println(characterInfo)
 
         // Fake an updated Character
-//        val character = Character(
-//            id = "0000-0000-0000-0000",
-//            name = "Toto",
-//            action_points = 36.0.toFloat(),
-//            hungry = false,
-//            thirsty = false,
-//            last_refresh = getCurrentTimestamp().time
-//        )
-//        database.characterDao().clear()
-//        database.characterDao().insert(character)
-//
-//        val dateStr = Date(character.last_refresh).toString("yyyy-MM-dd HH:mm:ss")
-//        println("date :: $dateStr")
-
+        val character = Character(
+            id = characterId,
+            name = characterInfo.name,
+            action_points = characterInfo.action_points,
+            hungry = false,  // FIXME
+            thirsty = false,  // FIXME
+            last_refresh = getCurrentTimestamp().time
+        )
+        database.characterDao().clear()
+        database.characterDao().insert(character)
 
         // FIXME : if work cant be done (network, etc)
         // see https://developer.android.com/topic/libraries/architecture/workmanager/basics#kts

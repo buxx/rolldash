@@ -68,6 +68,9 @@ class DashboardFragment : Fragment() {
 
                     } else {
                         println("No character data, don't update")
+                        runOnUiThread {
+                            binding.textviewFirst.text = getString(R.string.need_configure)
+                        }
                     }
 
                 }

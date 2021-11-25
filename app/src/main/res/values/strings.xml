@@ -21,6 +21,7 @@
     <!-- Dashboard -->
     <string name="loading">Chargement …</string>
     <string name="last_refresh">Récupération il y a : %s</string>
+    <string name="need_configure">Veuillez configurer votre compte</string>
     <string name="character_name">Personnage : %s</string>
     <string name="character_ap">Points d\'Actions : %s</string>
     <string name="character_hungry">Faim : %s</string>
