@@ -10,6 +10,8 @@ data class Character(
     @ColumnInfo(name = "action_points") val action_points: Float,
     @ColumnInfo(name = "hungry") val hungry: Boolean,
     @ColumnInfo(name = "thirsty") val thirsty: Boolean,
+    @ColumnInfo(name = "tired") val tired: Boolean,
+    @ColumnInfo(name = "exhausted") val exhausted: Boolean,
     @ColumnInfo(name = "last_refresh") val last_refresh: Long,
 )
 

@@ -18,6 +18,8 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.time.Duration
 
+const val REFRESH_CHARACTER_DATA_DELAY = 60_000
+
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
@@ -76,8 +78,7 @@ class DashboardFragment : Fragment() {
                 }
             }
 
-            // FIXME BS NOW : increase delay
-            mainHandler.postDelayed(this, 1000)
+            mainHandler.postDelayed(this, REFRESH_CHARACTER_DATA_DELAY)
         }
     }
 

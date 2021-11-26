@@ -58,7 +58,18 @@ fun getSinceString(date1: Date, date2: Date): String {
 
 
 @Serializable
-data class CharacterInfo(val alive: Boolean, val name: String, val action_points: Float)
+data class CharacterInfo(
+    val alive: Boolean,
+    val name: String,
+    val action_points: Float,
+    val is_attack_ready: Boolean,
+    val is_defend_ready: Boolean,
+    val is_exhausted: Boolean,
+    val is_hunger: Boolean,
+    val is_thirsty: Boolean,
+    val is_tired: Boolean,
+    val is_vulnerable: Boolean,
+)
 
 private fun isInternetAvailable(context: Context): Boolean {
     var result = false
@@ -98,6 +109,8 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
         // application was closed.
         // TODO : Afficher la date de dernier fetch pour verifier que le worker travaille
         // TODO : mettre un bouton refresh sur la home page
+        // FIXME : manage case where character is not yet created
+        // FIXME : manage case where character is dead
 
         // Do the work ...
         // See https://www.raywenderlich.com/6994782-android-networking-with-kotlin-tutorial-getting-started
@@ -211,7 +224,9 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             return Result.failure()
         }
         val characterInfoResponseJsonString = characterInfoResponse.readText()
-        val characterInfo = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }.decodeFromString<CharacterInfo>(characterInfoResponseJsonString)
+        val characterInfo: CharacterInfo = kotlinx.serialization.json.Json {
+            ignoreUnknownKeys = true
+        }.decodeFromString<CharacterInfo>(characterInfoResponseJsonString)
 
         println(characterInfo)
 
@@ -220,8 +235,10 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             id = characterId,
             name = characterInfo.name,
             action_points = characterInfo.action_points,
-            hungry = false,  // FIXME
-            thirsty = false,  // FIXME
+            hungry = characterInfo.is_hunger,
+            thirsty = characterInfo.is_thirsty,
+            tired = characterInfo.is_tired,
+            exhausted = characterInfo.is_exhausted,
             last_refresh = getCurrentTimestamp().time
         )
         database.characterDao().clear()
