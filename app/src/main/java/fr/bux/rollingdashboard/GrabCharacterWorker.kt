@@ -1,9 +1,6 @@
 package fr.bux.rollingdashboard
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.ktor.client.*
@@ -15,9 +12,6 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlinx.serialization.*
 
 
@@ -147,10 +141,8 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             ignoreUnknownKeys = true
         }.decodeFromString<CharacterInfo>(characterInfoResponseJsonString)
 
-        println(characterInfo)
-
-        // Fake an updated Character
-        val character = Character(
+        val previousCharacter = database.characterDao().get()
+        val updatedCharacter = Character(
             id = characterId,
             name = characterInfo.name,
             action_points = characterInfo.action_points,
@@ -160,8 +152,18 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             exhausted = characterInfo.is_exhausted,
             last_refresh = getCurrentTimestamp().time
         )
+
+        if (previousCharacter != null) {
+            val isNowHungry = !previousCharacter.hungry && characterInfo.is_hunger
+            val isNowThirsty = !previousCharacter.thirsty && characterInfo.is_thirsty
+            val isNowMaxAp = (
+                previousCharacter.action_points != characterInfo.action_points
+                && characterInfo.action_points == characterInfo.max_action_points
+            )
+        }
+
         database.characterDao().clear()
-        database.characterDao().insert(character)
+        database.characterDao().insert(updatedCharacter)
 
         // FIXME : if work cant be done (network, etc)
         // see https://developer.android.com/topic/libraries/architecture/workmanager/basics#kts

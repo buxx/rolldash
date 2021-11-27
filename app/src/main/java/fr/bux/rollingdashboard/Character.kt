@@ -38,6 +38,7 @@ data class CharacterInfo(
     val alive: Boolean,
     val name: String,
     val action_points: Float,
+    val max_action_points: Float,
     val is_attack_ready: Boolean,
     val is_defend_ready: Boolean,
     val is_exhausted: Boolean,
