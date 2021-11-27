@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.time.Duration
 
-const val REFRESH_CHARACTER_DATA_DELAY = 60_000
+const val REFRESH_CHARACTER_DATA_DELAY = 60_000L
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.

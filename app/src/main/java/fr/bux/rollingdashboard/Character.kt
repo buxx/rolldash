@@ -2,6 +2,7 @@ package fr.bux.rollingdashboard
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.Serializable
 
 @Entity
 data class Character(
@@ -30,3 +31,18 @@ interface CharacterDao {
     @Insert
     fun insert(character: Character)
 }
+
+
+@Serializable
+data class CharacterInfo(
+    val alive: Boolean,
+    val name: String,
+    val action_points: Float,
+    val is_attack_ready: Boolean,
+    val is_defend_ready: Boolean,
+    val is_exhausted: Boolean,
+    val is_hunger: Boolean,
+    val is_thirsty: Boolean,
+    val is_tired: Boolean,
+    val is_vulnerable: Boolean,
+)
