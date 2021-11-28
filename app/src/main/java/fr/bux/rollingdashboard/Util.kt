@@ -1,12 +1,18 @@
 package fr.bux.rollingdashboard
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.core.content.ContextCompat.getSystemService
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
+
+const val CHANNEL_ID = "Rolling"
+const val NOTIFICATION_CHARACTER_ID = 1
 
 fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
     val formatter = SimpleDateFormat(format, locale)

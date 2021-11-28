@@ -1,6 +1,11 @@
 package fr.bux.rollingdashboard
 
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
+import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.ktor.client.*
@@ -107,7 +112,6 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
                 return Result.failure()
             }
             HttpStatusCode.OK -> {
-                println("OK")
                 // OK
             }
             else -> {
@@ -160,8 +164,41 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
                 previousCharacter.action_points != characterInfo.action_points
                 && characterInfo.action_points == characterInfo.max_action_points
             )
+
+            if (isNowHungry || isNowThirsty || isNowMaxAp) {
+                var notificationText = ""
+                if (isNowHungry) {
+                    println("Character is now HUNGRY")
+                    notificationText += " Faim!"
+                }
+                if (isNowThirsty) {
+                    println("Character is now THIRSTY")
+                    notificationText += " Soif!"
+                }
+                if (isNowMaxAp) {
+                    println("Character is now MAX AP")
+                    notificationText += " MaxAP!"
+                }
+
+                val notificationManager = applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+                val intent = Intent(applicationContext, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                val pendingIntent: PendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
+                val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentTitle(characterInfo.name)
+                    .setContentText(notificationText)
+                    .setContentIntent(pendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+                notificationManager.notify(NOTIFICATION_CHARACTER_ID, builder.build())
+
+            }
         }
 
+        println("Update database with character")
         database.characterDao().clear()
         database.characterDao().insert(updatedCharacter)
 

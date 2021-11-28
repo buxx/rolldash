@@ -33,6 +33,14 @@
     <string name="saving">Enregistrement …</string>
     <string name="wrong_inputs">Erreur de saisie</string>
 
+    <!-- Notifications -->
+    <string name="notification_channel_name">Rolling</string>
+    <string name="notification_channel_description">Rolling character notifications</string>
+    <string name="notification_title">%s</string>
+
+
+
+
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="dashboard_fragment_label">Tableau de bord</string>
