@@ -1,6 +1,6 @@
 <resources>
     <!-- General -->
-    <string name="app_name">Rolling : Tableau de bord</string>
+    <string name="app_name">Tableau de bord Rolling</string>
 
     <!-- Account configuration -->
     <string name="text_input_server_address_hint">Addresse du serveur</string>
