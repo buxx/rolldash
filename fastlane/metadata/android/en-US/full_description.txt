@@ -1,0 +1,2 @@
+Rolling dashboard is an Android application permitting see current character resume
+and notificate on game play events.
