@@ -33,7 +33,7 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
         // Do the work ...
         // See https://www.raywenderlich.com/6994782-android-networking-with-kotlin-tutorial-getting-started
         // https://kotlinlang.org/docs/kmm-use-ktor-for-networking.html#configure-the-client
-        println("DEBUG PERIODIC EXECUTION")
+        println("WORKER :: DEBUG PERIODIC EXECUTION")
         val database = RollingDashboardApplication.instance.database
 
         var systemData = database.systemDataDao().get()
@@ -47,19 +47,19 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             database.systemDataDao().insert(systemData)
 
             if (lastTryRefresh < 30_000) {
-                println("Skip grab character (last check minor than 30s)")
+                println("WORKER :: Skip grab character (last check minor than 30s)")
                 return Result.success()
             }
         }
 
         if (!isInternetAvailable(applicationContext)) {
-            println("Grab character worker called but there is no internet access !")
+            println("WORKER :: Grab character worker called but there is no internet access !")
             return Result.failure()
         }
 
         val accountConfiguration = database.accountConfigurationDao().get()
         if (accountConfiguration == null) {
-            println("Grab character worker called but there is no account configuration !")
+            println("WORKER :: Grab character worker called but there is no account configuration !")
             return Result.success()
         }
 
@@ -97,18 +97,18 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
         }
         serverUrl = serverUrl.trimEnd('/')
         val accountCharacterUrl = "$serverUrl/account/current_character_id"
-        println("Make request $accountCharacterUrl")
+        println("WORKER :: Make request $accountCharacterUrl")
         val accountCharacterResponse: HttpResponse = try {
             httpClient.get(accountCharacterUrl)
         } catch (e: Throwable) {
-            println("Unexpected error ! $e")
+            println("WORKER :: Unexpected error ! $e")
             return Result.failure()
         }
 
         when (accountCharacterResponse.status) {
             HttpStatusCode.Forbidden -> {
                 // FIXME UI must display this problem
-                println("Fail to authenticate !")
+                println("WORKER :: Fail to authenticate !")
                 return Result.failure()
             }
             HttpStatusCode.OK -> {
@@ -117,7 +117,7 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             else -> {
                 // FIXME UI must display this problem
                 val statusCode = accountCharacterResponse.status
-                println("Unexpected return status code $statusCode !")
+                println("WORKER :: Unexpected return status code $statusCode !")
                 return Result.failure()
             }
         }
@@ -125,19 +125,17 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
         val characterId: String = accountCharacterResponse.readText();
         if (characterId == "") {
             // FIXME UI must display this problem
-            println("Account have no character, abort")
+            println("WORKER :: Account have no character, abort")
             return Result.success()
         }
 
-        println("Found character id $characterId")
-
+        println("WORKER :: Found character id $characterId")
         val characterUrl = "$serverUrl/character/$characterId"
-        println("Make request $accountCharacterUrl")
-
+        println("WORKER :: Make request $accountCharacterUrl")
         val characterInfoResponse: HttpResponse =  try {
             httpClient.get(characterUrl)
         } catch (e: Throwable) {
-            println("Unexpected error ! $e")
+            println("WORKER :: Unexpected error ! $e")
             return Result.failure()
         }
         val characterInfoResponseJsonString = characterInfoResponse.readText()
@@ -168,15 +166,15 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             if (isNowHungry || isNowThirsty || isNowMaxAp) {
                 var notificationText = ""
                 if (isNowHungry) {
-                    println("Character is now HUNGRY")
+                    println("WORKER :: Character is now HUNGRY")
                     notificationText += " Faim!"
                 }
                 if (isNowThirsty) {
-                    println("Character is now THIRSTY")
+                    println("WORKER :: Character is now THIRSTY")
                     notificationText += " Soif!"
                 }
                 if (isNowMaxAp) {
-                    println("Character is now MAX AP")
+                    println("WORKER :: Character is now MAX AP")
                     notificationText += " MaxAP!"
                 }
 
@@ -187,7 +185,7 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
                 }
                 val pendingIntent: PendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
                 val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setSmallIcon(R.drawable.rolling_dashboard_notification_icon)
                     .setContentTitle(characterInfo.name)
                     .setContentText(notificationText)
                     .setContentIntent(pendingIntent)
@@ -195,10 +193,12 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
 
                 notificationManager.notify(NOTIFICATION_CHARACTER_ID, builder.build())
 
+            } else {
+                println("WORKER :: no changes")
             }
         }
 
-        println("Update database with character")
+        println("WORKER :: Update database with character")
         database.characterDao().clear()
         database.characterDao().insert(updatedCharacter)
 
