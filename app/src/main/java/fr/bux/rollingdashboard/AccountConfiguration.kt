@@ -11,6 +11,7 @@ data class AccountConfiguration(
     @ColumnInfo(name = "notify_hungry") val notify_hungry: Boolean,
     @ColumnInfo(name = "notify_thirsty") val notify_thirsty: Boolean,
     @ColumnInfo(name = "notify_ap") val notify_ap: Boolean,
+    // FIXME : remove this parameter
     @ColumnInfo(name = "network_grab_each") val network_grab_each: Int,
 )
 

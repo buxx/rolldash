@@ -29,7 +29,7 @@
         android:id="@+id/text_input_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
@@ -40,7 +40,7 @@
         android:id="@+id/password_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPassword"
         android:minHeight="48dp"
@@ -63,7 +63,7 @@
         android:id="@+id/switch_thirst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:checked="true"
         android:minHeight="48dp"
         android:text="Notifier la soif"
@@ -74,30 +74,11 @@
         android:id="@+id/switch_max_ap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="8dp"
         android:checked="true"
         android:minHeight="48dp"
         android:text="Notifier Point d'Actions max"
         app:layout_constraintTop_toBottomOf="@+id/switch_thirst"
-        tools:layout_editor_absoluteX="18dp" />
-
-    <Spinner
-        android:id="@+id/spinner_network_grab_period"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:minHeight="48dp"
-        app:layout_constraintStart_toEndOf="@+id/text_view_network_grab_each_info"
-        app:layout_constraintTop_toTopOf="@+id/text_view_network_grab_each_info" />
-
-    <TextView
-        android:id="@+id/text_view_network_grab_each_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="@string/network_grab_each"
-        app:layout_constraintTop_toBottomOf="@+id/switch_max_ap"
         tools:layout_editor_absoluteX="18dp" />
 
     <Button
@@ -109,8 +90,7 @@
         app:iconTint="#ACACAC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_network_grab_period" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_save"

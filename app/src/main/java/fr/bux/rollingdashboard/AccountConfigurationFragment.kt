@@ -50,30 +50,15 @@ class AccountConfigurationFragment : Fragment() {
         binding.textInputUserName.setHint(R.string.text_input_user_name_hint)
         binding.passwordPassword.setHint(R.string.text_input_password_hint)
 
-        // Fill the spinner
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.network_grab_period_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            binding.spinnerNetworkGrabPeriod.adapter = adapter
-        }
-
         return binding.root
 
     }
 
     private fun isEntryValid(): Boolean {
-        val networkGrabEach = 3600 // FIXME : determine value for real
         return viewModel.isEntryValid(
             binding.textInputServerAddress.text.toString(),
             binding.textInputUserName.text.toString(),
             binding.passwordPassword.text.toString(),
-            networkGrabEach,
         )
     }
 

@@ -22,8 +22,8 @@ class AccountConfigurationViewModel(private val repository: AccountConfiguration
         return repository.get()
     }
 
-    fun isEntryValid(server_address: String, user_name: String, password: String, network_grab_each: Int): Boolean {
-        if (server_address.isBlank() || user_name.isBlank() || password.isBlank() || network_grab_each < 5 * 60) {
+    fun isEntryValid(server_address: String, user_name: String, password: String): Boolean {
+        if (server_address.isBlank() || user_name.isBlank() || password.isBlank()) {
             return false
         }
         return true
