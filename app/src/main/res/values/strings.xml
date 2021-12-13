@@ -1,6 +1,8 @@
 <resources>
     <!-- General -->
     <string name="app_name">Tableau de bord Rolling</string>
+    <string name="account_configuration_required">Enregistrez d\'abord une configuration de compte</string>
+    <string name="account_configuration_launched">Récupération des données en cours …</string>
 
     <!-- Account configuration -->
     <string name="text_input_server_address_hint">Addresse du serveur</string>
@@ -8,15 +10,6 @@
     <string name="text_input_password_hint">Mot de passe</string>
     <string name="network_grab_each">Récupération toutes les :</string>
     <string name="account_configuration_saved">Configuration enregistré avec succès</string>
-
-    <string-array name="network_grab_period_array">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 heure</item>
-        <item>6 heures</item>
-        <item>12 heures</item>
-        <item>24 heures</item>
-    </string-array>
 
     <!-- Dashboard -->
     <string name="loading">Chargement …</string>

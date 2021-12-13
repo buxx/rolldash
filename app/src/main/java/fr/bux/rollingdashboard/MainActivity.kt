@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.work.Data
+import androidx.work.ListenableWorker
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS
 import androidx.work.WorkManager
@@ -34,7 +35,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private var workManager: WorkManager? = null
 
     // TMP CODE FOR TEST SCHEDULE
     lateinit var mainHandler: Handler
@@ -52,8 +52,19 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.refreshNow.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            lifecycleScope.launch {
+                val database = RollingDashboardApplication.instance.database
+                val accountConfiguration = database.accountConfigurationDao().get()
+                if (accountConfiguration == null) {
+                    Snackbar.make(view, R.string.account_configuration_required, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                } else {
+                    val workManager = WorkManager.getInstance(this@MainActivity)
+                    workManager.enqueue(RollingDashboardApplication.instance.buildPeriodicGrabCharacterWorkRequest())
+                    Snackbar.make(view, R.string.account_configuration_launched, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
         }
 
         // Notification channel
@@ -74,8 +85,8 @@ class MainActivity : AppCompatActivity() {
                 // Start background task only if account configuration is set
                 if (accountConfiguration != null) {
                     println("Account configuration exist, enqueue work request")
-                    workManager = WorkManager.getInstance(this@MainActivity)
-                    workManager?.enqueue(RollingDashboardApplication.instance.buildPeriodicGrabCharacterWorkRequest())
+                    val workManager = WorkManager.getInstance(this@MainActivity)
+                    workManager.enqueue(RollingDashboardApplication.instance.buildPeriodicGrabCharacterWorkRequest())
                 } else {
                     println("Account configuration do not exist")
                 }

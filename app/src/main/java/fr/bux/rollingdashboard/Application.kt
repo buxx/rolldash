@@ -28,7 +28,6 @@ class RollingDashboardApplication : Application() {
 
         return PeriodicWorkRequest.Builder(
             GrabCharacterWorker::class.java,
-            // FIXME value by configuration (WHEN CONFIG !)
             PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
             TimeUnit.MILLISECONDS,
         ).setInputData(data).build()

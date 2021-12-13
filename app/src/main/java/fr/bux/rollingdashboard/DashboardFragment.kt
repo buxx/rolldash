@@ -27,6 +27,7 @@ class DashboardFragment : Fragment() {
     private var _binding: DashboardFragmentBinding? = null
     lateinit var mainHandler: Handler
     private val binding get() = _binding!!
+    // FIXME BS : real live data from this model (instant refresh when worker update or error)
     private val viewModel: CharacterViewModel by activityViewModels {
         CharacterViewModelFactory(
             (activity?.application as RollingDashboardApplication).character_repository
