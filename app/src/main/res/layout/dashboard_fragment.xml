@@ -40,8 +40,8 @@
         android:id="@+id/textView_character_hungry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintTop_toBottomOf="@+id/textView_character_ap"
         tools:layout_editor_absoluteX="16dp" />
@@ -50,8 +50,8 @@
         android:id="@+id/textView_character_thirsty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintTop_toBottomOf="@+id/textView_character_hungry"
         tools:layout_editor_absoluteX="16dp" />
