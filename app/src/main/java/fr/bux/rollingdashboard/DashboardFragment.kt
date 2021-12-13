@@ -84,14 +84,6 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_DashboardFragment_to_AccountConfigurationFragment)
-        }
-
-        binding.buttonHello.setOnClickListener {
-            Toast.makeText(context, "toto2", Toast.LENGTH_LONG).show()
-        }
     }
 
     override fun onDestroyView() {
