@@ -2,7 +2,7 @@
     <!-- General -->
     <string name="app_name">Tableau de bord Rolling</string>
     <string name="account_configuration_required">Enregistrez d\'abord une configuration de compte</string>
-    <string name="account_configuration_launched">Récupération des données en cours …</string>
+    <string name="account_configuration_launched">Récupération des données …</string>
 
     <!-- Account configuration -->
     <string name="text_input_server_address_hint">Addresse du serveur</string>
