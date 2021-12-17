@@ -9,6 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.auth.*
 import io.ktor.client.features.auth.providers.*
@@ -18,6 +19,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.*
+import java.io.File
 
 
 class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
@@ -152,7 +154,8 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             thirsty = characterInfo.is_thirsty,
             tired = characterInfo.is_tired,
             exhausted = characterInfo.is_exhausted,
-            last_refresh = getCurrentTimestamp().time
+            last_refresh = getCurrentTimestamp().time,
+            avatar_uuid = characterInfo.avatar_uuid,
         )
 
         if (previousCharacter != null) {
@@ -162,6 +165,25 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
                 previousCharacter.action_points != characterInfo.action_points
                 && characterInfo.action_points == characterInfo.max_action_points
             )
+
+            if (previousCharacter.avatar_uuid != characterInfo.avatar_uuid) {
+                if (characterInfo.avatar_uuid != null) {
+                    val avatarUrl = "$serverUrl/media/character_avatar__original__${characterInfo.avatar_uuid}.png"
+                    println("WORKER :: Make avatar request $avatarUrl")
+                    val avatarResponse: HttpResponse = try {
+                        httpClient.get(avatarUrl)
+                    } catch (e: Throwable) {
+                        println("WORKER :: Unexpected error ! $e")
+                        return Result.failure()
+                    }
+                    val avatarResponseBody: ByteArray = avatarResponse.receive()
+                    val applicationDir = applicationContext.applicationInfo.dataDir
+                    val fileName = "$applicationDir/avatar.png"
+                    val file = File(fileName)
+                    file.createNewFile()
+                    file.writeBytes(avatarResponseBody)
+                }
+            }
 
             if (isNowHungry || isNowThirsty || isNowMaxAp) {
                 var notificationText = ""

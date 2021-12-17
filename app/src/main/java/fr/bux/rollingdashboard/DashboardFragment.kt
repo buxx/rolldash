@@ -2,19 +2,19 @@ package fr.bux.rollingdashboard
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import fr.bux.rollingdashboard.databinding.DashboardFragmentBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import androidx.lifecycle.Observer
 import java.util.*
+
+import android.graphics.BitmapFactory
+
+import android.widget.ImageView
+import java.io.File
+
 
 const val REFRESH_CHARACTER_DATA_DELAY = 60_000L
 
@@ -38,9 +38,25 @@ class DashboardFragment : Fragment() {
     ): View {
         _binding = DashboardFragmentBinding.inflate(inflater, container, false)
 
-        viewModel.character.observe(viewLifecycleOwner, Observer { character ->
+        viewModel.character.observe(viewLifecycleOwner, { character ->
             if (character != null) {
                 println("Update character data")
+
+                // Try to display avatar if file exist
+                val applicationDir = activity?.applicationInfo?.dataDir
+                if ( applicationDir != null) {
+                    val fileName = "$applicationDir/avatar.png"
+                    val imgFile = File(fileName)
+                    if (imgFile.exists()) {
+                        val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                        val myImage: ImageView = binding.avatarView
+                        myImage.setImageBitmap(myBitmap)
+                    } else {
+                        println("no avatar")
+                    }
+                } else {
+                    println("Fail to retrieve application data dir because no activity")
+                }
 
                 val lastRefreshDate = Date(character.last_refresh)
                 val currentDate = getCurrentDateTime()

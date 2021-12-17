@@ -14,6 +14,7 @@ data class Character(
     @ColumnInfo(name = "tired") val tired: Boolean,
     @ColumnInfo(name = "exhausted") val exhausted: Boolean,
     @ColumnInfo(name = "last_refresh") val last_refresh: Long,
+    @ColumnInfo(name = "avatar_uuid") val avatar_uuid: String?,
 )
 
 @Dao
@@ -46,4 +47,5 @@ data class CharacterInfo(
     val is_thirsty: Boolean,
     val is_tired: Boolean,
     val is_vulnerable: Boolean,
+    val avatar_uuid: String?,
 )
