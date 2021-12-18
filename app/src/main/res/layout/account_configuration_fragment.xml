@@ -6,103 +6,115 @@
     android:layout_height="match_parent"
     tools:context=".AccountConfigurationFragment">
 
-    <TextView
-        android:id="@+id/textview_second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_go_back_main"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="0dp">
+            <TextView
+                android:id="@+id/textview_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/button_go_back_main"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/text_input_server_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="18dp" />
+            <EditText
+                android:id="@+id/text_input_server_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="18dp" />
 
-    <EditText
-        android:id="@+id/text_input_user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_server_address"
-        tools:layout_editor_absoluteX="18dp" />
+            <EditText
+                android:id="@+id/text_input_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_input_server_address"
+                tools:layout_editor_absoluteX="18dp" />
 
-    <EditText
-        android:id="@+id/password_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_user_name"
-        tools:ignore="SpeakableTextPresentCheck"
-        tools:layout_editor_absoluteX="18dp" />
+            <EditText
+                android:id="@+id/password_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_input_user_name"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteX="18dp" />
 
-    <Switch
-        android:id="@+id/switch_notificate_hungry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:checked="true"
-        android:minHeight="48dp"
-        android:text="Notifier la faim"
-        app:layout_constraintTop_toBottomOf="@+id/password_password"
-        tools:layout_editor_absoluteX="18dp" />
+            <Switch
+                android:id="@+id/switch_notificate_hungry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:checked="true"
+                android:minHeight="48dp"
+                android:text="Notifier la faim"
+                app:layout_constraintTop_toBottomOf="@+id/password_password"
+                tools:layout_editor_absoluteX="18dp" />
 
-    <Switch
-        android:id="@+id/switch_thirst"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:checked="true"
-        android:minHeight="48dp"
-        android:text="Notifier la soif"
-        app:layout_constraintTop_toBottomOf="@+id/switch_notificate_hungry"
-        tools:layout_editor_absoluteX="18dp" />
+            <Switch
+                android:id="@+id/switch_thirst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:checked="true"
+                android:minHeight="48dp"
+                android:text="Notifier la soif"
+                app:layout_constraintTop_toBottomOf="@+id/switch_notificate_hungry"
+                tools:layout_editor_absoluteX="18dp" />
 
-    <Switch
-        android:id="@+id/switch_max_ap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:checked="true"
-        android:minHeight="48dp"
-        android:text="Notifier Point d'Actions max"
-        app:layout_constraintTop_toBottomOf="@+id/switch_thirst"
-        tools:layout_editor_absoluteX="18dp" />
+            <Switch
+                android:id="@+id/switch_max_ap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:checked="true"
+                android:minHeight="48dp"
+                android:text="Notifier Point d'Actions max"
+                app:layout_constraintTop_toBottomOf="@+id/switch_thirst"
+                tools:layout_editor_absoluteX="18dp" />
 
-    <Button
-        android:id="@+id/button_go_back_main"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="106dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/cancel"
-        app:iconTint="#ACACAC"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_max_ap" />
+            <Button
+                android:id="@+id/button_go_back_main"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="106dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/cancel"
+                app:iconTint="#ACACAC"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switch_max_ap" />
 
-    <Button
-        android:id="@+id/button_save"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_go_back_main"
-        app:layout_constraintVertical_bias="0.253" />
+            <Button
+                android:id="@+id/button_save"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_go_back_main" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
