@@ -20,6 +20,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.*
 import java.io.File
+import java.lang.Exception
 
 
 class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
@@ -40,15 +41,23 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
 
         var systemData = database.systemDataDao().get()
         if (systemData == null) {
+            println("WORKER :: first work, donr't check last time")
             systemData = SystemData(last_try_refresh = getCurrentTimestamp().time)
             database.systemDataDao().insert(systemData)
         } else {
             val lastTryRefresh = systemData.last_try_refresh
             systemData.last_try_refresh = getCurrentTimestamp().time
-            database.systemDataDao().clear()
-            database.systemDataDao().insert(systemData)
+            try {
+                database.systemDataDao().update(systemData)
+            } catch (e: Exception) {
+                // FIXME BS NOW : on est toujours la dedans !!
+                println("WORKER :: Unexpected error when save system data: $e")
+                return Result.failure()
+            }
 
-            if (lastTryRefresh < 30_000) {
+            val delta = getCurrentTimestamp().time - lastTryRefresh
+            println("WORKER :: check last time : $delta < 30_000 ?")
+            if (delta < 30_000) {
                 println("WORKER :: Skip grab character (last check minor than 30s)")
                 return Result.success()
             }
