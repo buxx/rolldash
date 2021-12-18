@@ -14,10 +14,9 @@ interface SystemDataDao {
     @Query("SELECT * FROM SystemData LIMIT 1")
     fun get(): SystemData?
 
-    // Before insert a character this method must be called to clear the table
-    @Query("DELETE FROM SystemData")
-    fun clear()
-
     @Insert
     fun insert(system: SystemData)
+
+    @Update
+    fun update(system: SystemData)
 }
