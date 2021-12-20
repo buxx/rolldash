@@ -179,8 +179,12 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
                 && characterInfo.action_points == characterInfo.max_action_points
             )
 
-            if (previousCharacter.avatar_uuid != characterInfo.avatar_uuid) {
-                if (characterInfo.avatar_uuid != null) {
+            println("WORKER :: avatar ? ${previousCharacter.avatar_uuid} != ${characterInfo.avatar_uuid} ?")
+            if (characterInfo.avatar_uuid != null) {
+                val applicationDir = applicationContext.applicationInfo.dataDir
+                val avatarFileName = "$applicationDir/avatar.png"
+                val avatarFile = File(avatarFileName)
+                if (previousCharacter.avatar_uuid != characterInfo.avatar_uuid || !avatarFile.exists()) {
                     val avatarUrl = "$serverUrl/media/character_avatar__original__${characterInfo.avatar_uuid}.png"
                     println("WORKER :: Make avatar request $avatarUrl")
                     val avatarResponse: HttpResponse = try {
@@ -190,11 +194,9 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
                         return Result.failure()
                     }
                     val avatarResponseBody: ByteArray = avatarResponse.receive()
-                    val applicationDir = applicationContext.applicationInfo.dataDir
-                    val fileName = "$applicationDir/avatar.png"
-                    val file = File(fileName)
-                    file.createNewFile()
-                    file.writeBytes(avatarResponseBody)
+                    println("WORKER :: Write avatar file into $avatarFileName")
+                    avatarFile.createNewFile()
+                    avatarFile.writeBytes(avatarResponseBody)
                 }
             }
 
