@@ -21,9 +21,10 @@ class RollingDashboardApplication : Application() {
             private set
     }
 
-    fun buildPeriodicGrabCharacterWorkRequest(): PeriodicWorkRequest {
+    fun buildPeriodicGrabCharacterWorkRequest(now: Boolean = false): PeriodicWorkRequest {
         val data: Data = Data.Builder()
             .putString("NAME", "Rolling worker")
+            .putBoolean("NOW", now)
             .build()
 
         return PeriodicWorkRequest.Builder(

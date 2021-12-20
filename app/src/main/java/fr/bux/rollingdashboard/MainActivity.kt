@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                         .setAction("Action", null).show()
                 } else {
                     val workManager = WorkManager.getInstance(this@MainActivity)
-                    workManager.enqueue(RollingDashboardApplication.instance.buildPeriodicGrabCharacterWorkRequest())
+                    workManager.enqueue(RollingDashboardApplication.instance.buildPeriodicGrabCharacterWorkRequest(true))
                     Snackbar.make(view, R.string.account_configuration_launched, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
                 }

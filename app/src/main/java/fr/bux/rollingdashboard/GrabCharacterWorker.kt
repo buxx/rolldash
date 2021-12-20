@@ -56,10 +56,14 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             }
 
             val delta = getCurrentTimestamp().time - lastTryRefresh
-            println("WORKER :: check last time : $delta < 30_000 ?")
-            if (delta < 30_000) {
-                println("WORKER :: Skip grab character (last check minor than 30s)")
-                return Result.success()
+            if (inputData.getBoolean("NOW", false)) {
+                println("WORKER :: Force execution because NOW is true")
+            } else {
+                println("WORKER :: check last time : $delta < 30_000 ?")
+                if (delta < 30_000) {
+                    println("WORKER :: Skip grab character (last check minor than 30s)")
+                    return Result.success()
+                }
             }
         }
 
