@@ -13,6 +13,10 @@ import java.util.*
 import android.graphics.BitmapFactory
 
 import android.widget.ImageView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 
@@ -25,10 +29,15 @@ class DashboardFragment : Fragment() {
     private var _binding: DashboardFragmentBinding? = null
     lateinit var mainHandler: Handler
     private val binding get() = _binding!!
-    // FIXME BS : real live data from this model (instant refresh when worker update or error)
-    private val viewModel: CharacterViewModel by activityViewModels {
+
+    private val characterViewModel: CharacterViewModel by activityViewModels {
         CharacterViewModelFactory(
             (activity?.application as RollingDashboardApplication).character_repository
+        )
+    }
+    private val systemDataViewModel: SystemDataViewModel by activityViewModels {
+        SystemDataViewModelFactory(
+            (activity?.application as RollingDashboardApplication).system_data_repository
         )
     }
 
@@ -38,7 +47,7 @@ class DashboardFragment : Fragment() {
     ): View {
         _binding = DashboardFragmentBinding.inflate(inflater, container, false)
 
-        viewModel.character.observe(viewLifecycleOwner, { character ->
+        characterViewModel.character.observe(viewLifecycleOwner, { character ->
             if (character != null) {
                 println("Update character data")
 
@@ -76,6 +85,16 @@ class DashboardFragment : Fragment() {
                 println("No character data, don't update")
                 runOnUiThread {
                     binding.textviewFirst.text = getString(R.string.need_configure)
+                }
+            }
+        })
+
+        systemDataViewModel.systemData.observe(viewLifecycleOwner, { systemData ->
+            if (systemData != null) {
+                if (systemData.current_grab_error != null) {
+                    runOnUiThread {
+                        binding.textviewFirst.text = systemData.current_grab_error
+                    }
                 }
             }
         })
