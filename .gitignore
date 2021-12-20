@@ -19,3 +19,4 @@ local.properties
 bin/
 gen/
 build/
+/app/release
