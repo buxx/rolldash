@@ -92,26 +92,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-//        val accountConfigurationViewModel =  ViewModelProvider(this)[AccountConfigurationViewModel::class.java]
-//        lifecycleScope.launch {
-//            withContext(Dispatchers.Default) {
-//                val accountConfiguration = accountConfigurationViewModel.get()
-//                println("{$accountConfiguration}")
-//            }
-//        }
-
-
-        // BLA BLA periodique pour refresh ui ?
-        mainHandler = Handler(Looper.getMainLooper())
-        mainHandler.post(doSomethingEveryOneSecond)
-    }
-
-    private val doSomethingEveryOneSecond = object : Runnable {
-        override fun run() {
-            //println("coucou")
-            mainHandler.postDelayed(this, 1000)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
