@@ -26,8 +26,6 @@ import java.lang.Exception
 class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
     CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
-        // FIXME : manage case where character is not yet created
-        // FIXME : manage case where character is dead
         println("WORKER :: DEBUG PERIODIC EXECUTION")
         val database = RollingDashboardApplication.instance.database
 
@@ -123,7 +121,7 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             }
             else -> {
                 val statusCode = accountCharacterResponse.status
-                println("WORKER :: Unexpected return status code $statusCode !")
+                println("WORKER :: Unexpected return status code (1) $statusCode !")
                 database.systemDataDao().updateCurrentGrabError("Erreur de récupération : Code serveur $statusCode")
                 return Result.failure()
             }
@@ -146,6 +144,33 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
             database.systemDataDao().updateCurrentGrabError("Erreur de récupération : $e")
             return Result.failure()
         }
+
+        when (characterInfoResponse.status) {
+            HttpStatusCode.OK -> {
+                // OK
+            }
+            HttpStatusCode.NotFound -> {
+                // Character is probably dead
+                println("WORKER :: Character is probably dead")
+                val previousCharacter = database.characterDao().get()
+                return if (previousCharacter != null && previousCharacter.alive) {
+                    println("WORKER :: Update character to dead")
+                    database.characterDao().setDead()
+                    buildNotification(applicationContext, previousCharacter.name, "Est MORT !")
+                    Result.success()
+                } else {
+                    println("WORKER :: Don't update character to dead because no character yet or already dead")
+                    Result.success()
+                }
+            }
+            else -> {
+                val statusCode = accountCharacterResponse.status
+                println("WORKER :: Unexpected return status code (2) $statusCode !")
+                database.systemDataDao().updateCurrentGrabError("Erreur de récupération : Code serveur $statusCode")
+                return Result.failure()
+            }
+        }
+
         val characterInfoResponseJsonString = characterInfoResponse.readText()
         val characterInfo: CharacterInfo = kotlinx.serialization.json.Json {
             ignoreUnknownKeys = true
@@ -154,6 +179,7 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
         val previousCharacter = database.characterDao().get()
         val updatedCharacter = Character(
             id = characterId,
+            alive = true,
             name = characterInfo.name,
             action_points = characterInfo.action_points,
             hungry = characterInfo.is_hunger,
@@ -208,21 +234,7 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
                     notificationText += " MaxAP!"
                 }
 
-                val notificationManager = applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-                val intent = Intent(applicationContext, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-                val pendingIntent: PendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
-                val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.rolling_dashboard_notification_icon)
-                    .setContentTitle(characterInfo.name)
-                    .setContentText(notificationText)
-                    .setContentIntent(pendingIntent)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-                notificationManager.notify(NOTIFICATION_CHARACTER_ID, builder.build())
-
+                buildNotification(applicationContext, characterInfo.name, notificationText)
             } else {
                 println("WORKER :: no changes")
             }

@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Entity
 data class Character(
     @PrimaryKey val id: String,
+    @ColumnInfo(name = "alive") val alive: Boolean,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "action_points") val action_points: Float,
     @ColumnInfo(name = "hungry") val hungry: Boolean,
@@ -31,12 +32,14 @@ interface CharacterDao {
 
     @Insert
     fun insert(character: Character)
+
+    @Query("UPDATE Character SET alive=0")
+    fun setDead()
 }
 
 
 @Serializable
 data class CharacterInfo(
-    val alive: Boolean,
     val name: String,
     val action_points: Float,
     val max_action_points: Float,

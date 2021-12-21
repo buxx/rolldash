@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [SystemData::class, Character::class, AccountConfiguration::class], version = 3)
+@Database(entities = [SystemData::class, Character::class, AccountConfiguration::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun systemDataDao(): SystemDataDao
@@ -25,6 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
                 )
                     .addMigrations(MIGRATION_1_2)
                     .addMigrations(MIGRATION_2_3)
+                    .addMigrations(MIGRATION_3_4)
                     .build()
                 INSTANCE = instance
                 instance

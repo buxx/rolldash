@@ -2,10 +2,13 @@ package fr.bux.rollingdashboard
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -78,4 +81,20 @@ fun isInternetAvailable(context: Context): Boolean {
     }
 
     return result
+}
+
+fun buildNotification(applicationContext: Context, characterName: String, notificationText: String) {
+    val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    val intent = Intent(applicationContext, MainActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
+    val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+        .setSmallIcon(R.drawable.rolling_dashboard_notification_icon)
+        .setContentTitle(characterName)
+        .setContentText(notificationText)
+        .setContentIntent(pendingIntent)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    notificationManager.notify(NOTIFICATION_CHARACTER_ID, builder.build())
 }
