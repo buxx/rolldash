@@ -241,8 +241,11 @@ class GrabCharacterWorker(appContext: Context, workerParams: WorkerParameters):
         }
 
         println("WORKER :: Update database with character")
-        database.characterDao().clear()
-        database.characterDao().insert(updatedCharacter)
+        if (previousCharacter != null) {
+            database.characterDao().update(updatedCharacter)
+        } else {
+            database.characterDao().insert(updatedCharacter)
+        }
         database.systemDataDao().updateCurrentGrabError(null)
 
         return Result.success()

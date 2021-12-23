@@ -12,8 +12,7 @@ class CharacterRepository(private val characterDao: CharacterDao) {
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun update(character: Character) {
-        characterDao.clear()
-        characterDao.insert(character)
+        characterDao.update(character)
     }
 
     @Suppress("RedundantSuspendModifier")

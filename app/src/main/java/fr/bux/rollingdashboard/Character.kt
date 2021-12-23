@@ -26,15 +26,14 @@ interface CharacterDao {
     @Query("SELECT * FROM character LIMIT 1")
     fun get(): Character?
 
-    // Before insert a character this method must be called to clear the table
-    @Query("DELETE FROM character")
-    fun clear()
-
     @Insert
     fun insert(character: Character)
 
     @Query("UPDATE Character SET alive=0")
     fun setDead()
+
+    @Update
+    fun update(character: Character)
 }
 
 
