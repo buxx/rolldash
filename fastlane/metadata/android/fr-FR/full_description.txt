@@ -1,0 +1,5 @@
+Ce tableau de bord vous permet de connaître sur votre personnage :
+
+* Les points d'actions disponible
+* Si il a faim
+* Si il a soif
